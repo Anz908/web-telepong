@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>REACT BY ANZ</title>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== DEFAULT: box kotak biru ===== */
+:root{--bg:#cfe0ff;--card:#fff;--ink:#0b2a5b;--soft:#46659f;--ac:#1e6bff;--ac2:#38bdf8;--bd:3px solid #0b2a5b;--sh:6px 6px 0 #1e6bff;--r:6px;--font:'Poppins',system-ui,sans-serif;--btn-ink:#fff;--inp:#fff}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0)}
+body{font-family:var(--font);color:var(--ink);min-height:100vh;position:relative;overflow-x:hidden;
+ padding:calc(env(safe-area-inset-top,0px) + 14px) 14px calc(env(safe-area-inset-bottom,0px) + 40px);
+ background:#cfe0ff;background-image:linear-gradient(#0b2a5b14 2px,transparent 2px),linear-gradient(90deg,#0b2a5b14 2px,transparent 2px);background-size:36px 36px}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.fx>*{display:none}
+.bx{position:absolute;border:3px solid #1e6bff;background:#1e6bff22;animation:dr 10s ease-in-out infinite alternate}
+body[data-theme=default] .bx{display:block}
+@keyframes dr{to{transform:translate(30px,-60px) rotate(45deg)}}
+.wrap{max-width:460px;margin:auto;position:relative;z-index:1}
+.page{display:none;flex-direction:column;gap:18px}.page.on{display:flex}
+.card{position:relative;background:var(--card);border:var(--bd);box-shadow:var(--sh);border-radius:var(--r);padding:16px;animation:in .5s both}
+.page>.card:nth-child(2){animation-delay:.08s}.page>.card:nth-child(3){animation-delay:.16s}.page>.card:nth-child(4){animation-delay:.24s}
+@keyframes in{from{opacity:0;transform:translateY(16px)}}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:1.55rem;font-weight:800;letter-spacing:1px;line-height:1.1}
+h1 i,h1 svg{color:var(--ac)}
+.sub{font-size:.72rem;color:var(--soft);margin-top:5px}
+.ib{width:46px;height:46px;flex:none;display:grid;place-items:center;background:var(--ac);color:var(--btn-ink);border:var(--bd);border-radius:var(--r);font-size:1.15rem;cursor:pointer;box-shadow:var(--sh);transition:transform .15s}
+.ib:active{transform:translate(3px,3px)}
+.clock{margin-top:14px;display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:var(--r);padding:11px 14px}
+.clock b{font-family:'Press Start 2P',ui-monospace,monospace;font-size:1.15rem;letter-spacing:2px;font-weight:400}
+.clock small{margin-left:auto;font-size:.62rem;opacity:.85;text-align:right}
+.chips{display:flex;gap:8px;margin-top:12px}
+.chips span{flex:1;text-align:center;padding:8px 4px;font-size:.75rem;border:var(--bd);border-radius:var(--r);background:var(--card)}
+.chips i,.chips svg{color:var(--ac);margin-right:4px}
+h2{font-size:.92rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+h2 i,h2 svg{color:var(--ac)}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:2px dashed color-mix(in srgb,var(--ink) 25%,transparent)}
+.row:first-of-type{border-top:0}
+.row .ic{width:40px;height:40px;display:grid;place-items:center;background:var(--ac);color:var(--btn-ink);border-radius:var(--r);flex:none;border:var(--bd)}
+.row small{display:block;font-size:.58rem;color:var(--soft);letter-spacing:1px}
+.row b{font-size:.9rem}
+input{width:100%;padding:13px;font:inherit;font-size:.85rem;color:var(--ink);background:var(--inp);border:var(--bd);border-radius:var(--r);outline:0}
+input:focus{border-color:var(--ac)}
+.hint{font-size:.65rem;color:var(--soft);margin-top:8px}
+.strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 6px 14px;scrollbar-width:thin}
+.em{flex:none;width:58px;height:58px;scroll-snap-align:start;display:grid;place-items:center;background:var(--inp);border:var(--bd);border-radius:var(--r);cursor:pointer;transition:transform .15s;position:relative;font-size:1.6rem}
+.em img{width:36px;height:36px;pointer-events:none}
+.em.on{background:var(--ac);transform:translateY(-4px) scale(1.06)}
+.em.on::after{content:"✓";font-weight:900;position:absolute;top:-9px;right:-9px;width:20px;height:20px;border-radius:50%;background:#22c55e;color:#fff;font-size:.6rem;display:grid;place-items:center;border:2px solid #fff}
+.add{display:flex;gap:8px;margin-top:2px}
+.add input{flex:1;padding:10px;font-size:.8rem}
+.add button{flex:none;padding:0 14px;font:inherit;font-weight:800;font-size:.8rem;color:var(--btn-ink);background:var(--ac);border:var(--bd);border-radius:var(--r);cursor:pointer}
+.add .rm{background:var(--card);color:var(--ink)}
+.prev{margin-top:12px;min-height:74px;display:flex;align-items:center;gap:10px;padding:10px;border:var(--bd);border-style:dashed;border-radius:var(--r)}
+.prev img{width:40px;height:40px;animation:pop .35s}
+.prev .t{font-size:1.9rem;animation:pop .35s}
+@keyframes pop{from{transform:scale(0)}}
+.prev .n{margin-left:auto;font-size:1.3rem;font-weight:800;color:var(--ac)}
+.prev .e{color:var(--soft);font-size:.75rem}
+.go{position:relative;overflow:hidden;width:100%;padding:16px;font:inherit;font-weight:800;font-size:1.05rem;letter-spacing:1px;color:var(--btn-ink);background:linear-gradient(90deg,var(--ac),var(--ac2),var(--ac));background-size:200% 100%;animation:bg 3s linear infinite;border:var(--bd);border-radius:var(--r);box-shadow:var(--sh);cursor:pointer;transition:transform .12s}
+.go::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:sh 2.2s infinite}
+.go:active{transform:translate(4px,4px);box-shadow:none}
+.go i,.go svg{margin-right:8px;animation:bt 1.2s infinite}
+@keyframes bg{to{background-position:-200% 0}}@keyframes sh{to{left:130%}}@keyframes bt{50%{transform:scale(1.3) rotate(-10deg)}}
+.ov{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:rgba(0,0,0,.55);padding:20px}
+.ov.show{display:grid}
+.toast{width:min(330px,100%);text-align:center;padding:26px 20px;background:var(--card);color:var(--ink);border:var(--bd);box-shadow:var(--sh);border-radius:var(--r);animation:pop .3s}
+.toast>i,.toast>svg{font-size:2.6rem;display:block;margin-bottom:12px}
+.toast p{font-size:.85rem;word-break:break-word}
+.toast small{display:block;margin-top:8px;font-size:.65rem;color:var(--soft);word-break:break-all}
+.toast .ok{color:#22c55e}.toast .no{color:#ef4444}.toast .ld{color:var(--ac)}
+.toast button{margin-top:16px;padding:10px 26px;font:inherit;font-weight:800;color:var(--btn-ink);background:var(--ac);border:var(--bd);border-radius:var(--r);cursor:pointer}
+.tg{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:var(--ink);padding:14px;margin-bottom:14px;background:var(--card);border:var(--bd);border-radius:var(--r);box-shadow:var(--sh);cursor:pointer}
+.tg:active{transform:translate(3px,3px)}
+.tg .sw{display:flex;flex:none;border:2px solid #000;border-radius:4px;overflow:hidden}
+.tg .sw i{width:16px;height:40px}
+.tg b{display:block;font-size:.88rem}.tg small{font-size:.64rem;color:var(--soft);line-height:1.4;display:block;margin-top:3px}
+.tg .ck,.tg svg.ck{margin-left:auto;color:#22c55e;font-size:1.2rem;display:none}
+.tg.cur .ck{display:block}
+
+/* ===== COMIC 3D: neo brutalism ungu biru + halftone ===== */
+body[data-theme=comic]{--card:#fff;--ink:#14072e;--soft:#5b4a93;--ac:#7c3aed;--ac2:#3b82f6;--bd:4px solid #14072e;--sh:7px 7px 0 #14072e;--r:4px;--font:'Bangers','Comic Sans MS',cursive;font-size:17px;letter-spacing:.6px;
+ background:radial-gradient(#ffffff40 2px,transparent 2.6px) 0 0/16px 16px,linear-gradient(160deg,#7c3aed,#3b82f6)}
+body[data-theme=comic] h1{color:#fff;-webkit-text-stroke:2px #14072e;paint-order:stroke fill;text-shadow:4px 4px 0 #14072e;font-size:2rem}
+body[data-theme=comic] h1 i,body[data-theme=comic] h1 svg{color:#7dd3fc}
+body[data-theme=comic] .sub{color:#14072e}
+body[data-theme=comic] .page>.card:nth-child(odd){transform:rotate(-.8deg)}
+body[data-theme=comic] .page>.card:nth-child(even){transform:rotate(.6deg)}
+body[data-theme=comic] #home>.card:first-child::after{content:"POW!";position:absolute;top:-16px;right:-6px;background:#7dd3fc;color:#14072e;border:3px solid #14072e;padding:2px 10px;font-size:1rem;transform:rotate(8deg);box-shadow:3px 3px 0 #14072e}
+body[data-theme=comic] .go{font-size:1.5rem;text-shadow:3px 3px 0 #14072e;-webkit-text-stroke:1px #14072e}
+body[data-theme=comic] .clock{background:#14072e;color:#7dd3fc}
+
+/* ===== COMIC 3D V2: brutalism + glow hitam merah pink ===== */
+body[data-theme=comic2]{--card:#14091a;--ink:#fff;--soft:#ff9ec0;--ac:#ff2d6f;--ac2:#ff1744;--bd:3px solid #ff2d6f;--sh:6px 6px 0 #c4122f,0 0 30px #ff2d6f66;--r:6px;--font:'Bangers','Comic Sans MS',cursive;--inp:#0a0610;font-size:17px;letter-spacing:.6px;
+ background:radial-gradient(#ff2d6f30 2px,transparent 2.6px) 0 0/16px 16px,radial-gradient(circle at 50% 0%,#5a0a2a 0,#07070b 60%)}
+body[data-theme=comic2] h1{color:#fff;font-size:2rem;text-shadow:0 0 8px #ff2d6f,0 0 22px #ff1744,3px 3px 0 #c4122f}
+body[data-theme=comic2] .card{animation:in .5s both,gl 2.4s ease-in-out infinite alternate}
+@keyframes gl{to{box-shadow:6px 6px 0 #c4122f,0 0 48px #ff2d6faa}}
+body[data-theme=comic2] .clock{background:#000;color:#ff2d6f;text-shadow:0 0 10px #ff2d6f;border:2px solid #ff2d6f}
+body[data-theme=comic2] .go{font-size:1.5rem;text-shadow:0 0 10px #fff;box-shadow:6px 6px 0 #7a0a1d,0 0 30px #ff2d6f}
+body[data-theme=comic2] .toast .ld{color:#ff2d6f}
+
+/* ===== LIQUID GLASS ===== */
+body[data-theme=glass]{--card:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.2));--ink:#0d3b2e;--soft:#3f7a68;--ac:#1fae78;--ac2:#5bb8f5;--bd:1px solid rgba(255,255,255,.85);--sh:0 10px 34px rgba(40,140,110,.22),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(255,255,255,.4);--r:24px;--inp:rgba(255,255,255,.55);
+ background:linear-gradient(135deg,#f6fff9,#d3f7e0 55%,#d6ebff)}
+body[data-theme=glass] .card,body[data-theme=glass] .toast{backdrop-filter:blur(24px) saturate(170%);-webkit-backdrop-filter:blur(24px) saturate(170%);isolation:isolate;overflow:hidden}
+body[data-theme=glass] .card::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(280px circle at var(--mx,30%) var(--my,0%),rgba(255,255,255,.85),transparent 62%)}
+body[data-theme=glass] .clock{background:rgba(13,59,46,.78);backdrop-filter:blur(10px)}
+body[data-theme=glass] .ib,body[data-theme=glass] .go,body[data-theme=glass] .tg{backdrop-filter:blur(14px)}
+body[data-theme=glass] .go{text-shadow:0 1px 6px rgba(0,0,0,.25);box-shadow:0 10px 28px rgba(31,174,120,.45),inset 0 2px 0 rgba(255,255,255,.7),inset 0 -6px 14px rgba(255,255,255,.2)}
+body[data-theme=glass] .chips span,body[data-theme=glass] .em{backdrop-filter:blur(8px)}
+.lb{position:absolute;filter:blur(46px);opacity:.75;animation:mo 12s ease-in-out infinite alternate}
+body[data-theme=glass] .lb{display:block}
+.l1{width:300px;height:300px;background:#7ee8b0;top:-60px;left:-80px}.l2{width:260px;height:260px;background:#9fd6ff;bottom:40px;right:-80px;animation-delay:-5s}.l3{width:220px;height:220px;background:#c9f7a8;top:42%;left:25%;animation-delay:-8s}
+@keyframes mo{0%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}100%{transform:translate(50px,-60px) scale(1.25);border-radius:30% 60% 70% 40%/50% 60% 30% 60%}}
+
+/* ===== MINICRAFT RZ: pixel, siang-malam realtime ===== */
+html:has(body[data-theme=mine]){font-size:12px}
+body[data-theme=mine]{--card:repeating-linear-gradient(0deg,#c8a26a 0 14px,#b6905a 14px 16px);--ink:#2b1d0e;--soft:#5a4222;--ac:#4a9a2a;--ac2:#6bbf3f;--bd:4px solid #3b2a14;--sh:inset -4px -4px 0 #8b6b3a,inset 4px 4px 0 #e2c58d,4px 4px 0 #0004;--r:0;--font:'Press Start 2P',monospace;--inp:#f3e3c0;image-rendering:pixelated;
+ background:linear-gradient(var(--sky1,#6fb7e8),var(--sky2,#a9d8f5)) fixed;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 90px);line-height:1.5}
+body[data-theme=mine] .clock{background:#2b1d0e;color:#9be564;border:3px solid #1a1007}
+body[data-theme=mine] .em{background:#b5b5b5;box-shadow:inset -3px -3px 0 #6b6b6b,inset 3px 3px 0 #e0e0e0}
+body[data-theme=mine] .em.on{background:#6bbf3f}
+body[data-theme=mine] .chips span,body[data-theme=mine] .row .ic{box-shadow:inset -3px -3px 0 #0003,inset 3px 3px 0 #fff4}
+body[data-theme=mine] .go,body[data-theme=mine] .ib,body[data-theme=mine] .add button,body[data-theme=mine] .toast button{background:#4a9a2a;box-shadow:inset -4px -4px 0 #2f6a18,inset 4px 4px 0 #8fdc5e,3px 3px 0 #0005;animation:none}
+body[data-theme=mine] .go::before{display:none}
+body[data-theme=mine] h1{font-size:1.15rem;line-height:1.5}
+body[data-theme=mine] .clock b{font-size:.95rem}
+.gr{position:absolute;left:0;right:0;bottom:0;height:64px;background:linear-gradient(#5fa83a 0 14px,#3f7a24 14px 18px,transparent 18px),radial-gradient(#6d4526 3px,transparent 3.5px) 0 0/16px 16px,#8a5a33;border-top:4px solid #2f5a1a}
+.sun{position:absolute;width:46px;height:46px;border:4px solid #0003;transition:left 1s linear,top 1s linear}
+.cl{position:absolute;width:64px;height:18px;background:#fff;box-shadow:22px -14px 0 #fff,44px 0 0 #fff,-18px 6px 0 #fff;opacity:.9;animation:cd linear infinite}
+.c1{top:14%;animation-duration:70s}.c2{top:26%;animation-duration:100s;animation-delay:-40s}.c3{top:40%;animation-duration:85s;animation-delay:-20s}
+@keyframes cd{from{left:-120px}to{left:110%}}
+body[data-theme=mine] .gr,body[data-theme=mine] .sun,body[data-theme=mine] .cl{display:block}
+
+/* ===== ROBLOX RT ===== */
+html:has(body[data-theme=roblox]){font-size:15px}
+body[data-theme=roblox]{--card:rgba(35,37,39,.93);--ink:#fff;--soft:#b8bcc2;--ac:#00b06f;--ac2:#2fd17f;--bd:1px solid #4a4d52;--sh:0 8px 22px rgba(0,0,0,.45);--r:10px;--inp:#393b3d;--font:'Poppins',system-ui,sans-serif;
+ background:linear-gradient(var(--sky1,#5aa9f5),var(--sky2,#b9defa)) fixed;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 100px)}
+body[data-theme=roblox] .clock{background:#111214;border:1px solid #4a4d52}
+body[data-theme=roblox] .clock b{color:#fff}
+body[data-theme=roblox] .ib,body[data-theme=roblox] .row .ic{background:#335fff;border:0;box-shadow:none}
+body[data-theme=roblox] .go{border:0;font-size:1.1rem;box-shadow:0 5px 0 #067a4c,0 10px 18px rgba(0,0,0,.35)}
+body[data-theme=roblox] .go:active{transform:translateY(5px);box-shadow:0 0 0 #067a4c}
+body[data-theme=roblox] .em.on{background:#00a2ff;box-shadow:0 0 0 2px #fff}
+body[data-theme=roblox] h1 i,body[data-theme=roblox] h1 svg{color:#00a2ff}
+body[data-theme=roblox] .gr{height:60px;border-top:0;background:radial-gradient(circle at 50% 38%,#86cc72 0 9px,#5aa24a 10px,transparent 11px) 0 0/40px 40px,#5aa24a;box-shadow:inset 0 6px 0 #3f7d33}
+body[data-theme=roblox] .sun{border:0;border-radius:50%}
+body[data-theme=roblox] .gr,body[data-theme=roblox] .sun,body[data-theme=roblox] .cl,body[data-theme=roblox] .noob{display:block}
+.noob{display:none;position:absolute;bottom:50px;left:0;width:44px;height:84px;animation:wk 22s linear infinite alternate}
+@keyframes wk{from{left:-6%}to{left:100%}}
+.nb{position:relative;width:44px;height:84px;animation:jp 5s infinite}
+@keyframes jp{0%,80%,100%{transform:none}88%{transform:translateY(-38px)}}
+.nb i{position:absolute;display:block}
+.nb .h{width:24px;height:24px;left:10px;top:0;background:#f5cd30;border:2px solid #0004;border-radius:4px}
+.nb .h::before{content:"";position:absolute;left:4px;top:7px;width:4px;height:4px;background:#222;box-shadow:10px 0 0 #222}
+.nb .h::after{content:"";position:absolute;left:6px;top:15px;width:8px;height:3px;border-bottom:2px solid #222;border-radius:0 0 6px 6px}
+.nb .t{width:30px;height:28px;left:7px;top:25px;background:#0d69ac;border:2px solid #0004}
+.nb .a{width:9px;height:28px;top:25px;background:#f5cd30;border:2px solid #0004;transform-origin:50% 0;animation:sw .7s ease-in-out infinite alternate}
+.nb .a.l{left:-3px}.nb .a.r{left:38px;animation-direction:alternate-reverse}
+.nb .g{width:14px;height:28px;top:54px;background:#4b974b;border:2px solid #0004;transform-origin:50% 0;animation:sw .7s ease-in-out infinite alternate}
+.nb .g.l{left:7px;animation-direction:alternate-reverse}.nb .g.r{left:23px}
+@keyframes sw{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+
+/* ===== BASIC: polos ===== */
+body[data-theme=basic]{--bg:#f2f2f2;--ink:#111;--soft:#666;--ac:#ff7a00;--ac2:#ff7a00;--bd:1px solid #ccc;--sh:none;--r:6px;background:#f2f2f2}
+body[data-theme=basic] *{animation:none!important;transition:none!important}
+body[data-theme=basic] .go{background:#ff7a00}
+body[data-theme=basic] .go::before{display:none}
+body[data-theme=basic] .clock{background:#333}
+.gr,.sun,.cl,.lb{display:none}
+@media(max-width:380px){h1{font-size:1.25rem}.clock b{font-size:.95rem}}
+</style>
+</head>
+<body data-theme="default">
+<div class="fx" id="fx">
+ <div class="lb l1"></div><div class="lb l2"></div><div class="lb l3"></div>
+ <div class="sun" id="sun"></div><div class="cl c1"></div><div class="cl c2"></div><div class="cl c3"></div><div class="gr"></div>
+ <div class="noob"><div class="nb"><i class="h"></i><i class="t"></i><i class="a l"></i><i class="a r"></i><i class="g l"></i><i class="g r"></i></div></div>
+</div>
+
+<div class="wrap">
+<div id="home" class="page on">
+  <div class="card">
+    <div class="top">
+      <div><h1><i class="fa-solid fa-bolt"></i> REACT BY ANZ</h1><div class="sub"><i class="fa-brands fa-whatsapp"></i> Reaction Saluran WhatsApp</div></div>
+      <button class="ib" onclick="show('themes')" title="Ganti Tema"><i class="fa-solid fa-palette"></i></button>
+    </div>
+    <div class="clock"><i class="fa-solid fa-clock"></i><b id="tm">00:00:00</b><small id="dt">-</small></div>
+    <div class="chips"><span><i class="fa-solid fa-shield-halved"></i>Aman</span><span><i class="fa-solid fa-gauge-high"></i>Cepat</span><span><i class="fa-solid fa-circle-check"></i>Real</span></div>
+  </div>
+
+  <div class="card">
+    <h2><i class="fa-solid fa-circle-info"></i> INFORMATION ABOUT</h2>
+    <div class="row"><div class="ic"><i class="fa-solid fa-code"></i></div><div><small>DEVELOPER</small><b>ANZ OFFICIAL</b></div></div>
+    <div class="row"><div class="ic"><i class="fa-solid fa-cube"></i></div><div><small>PEMBUAT BASE</small><b>SELAX PROJECT</b></div></div>
+    <div class="row"><div class="ic"><i class="fa-solid fa-server"></i></div><div><small>API BY</small><b>NEXA OFFICIAL</b></div></div>
+  </div>
+
+  <div class="card">
+    <h2><i class="fa-brands fa-whatsapp"></i> REACTION SALURAN WHATSAPP</h2>
+    <input id="link" type="url" inputmode="url" placeholder="Masukan link pesan saluran" autocomplete="off">
+    <div class="hint"><i class="fa-solid fa-link"></i> Contoh: https://whatsapp.com/channel/xxxxx/123</div>
+  </div>
+
+  <div class="card">
+    <h2><i class="fa-solid fa-face-smile"></i> PILIH EMOJI <span style="margin-left:auto;font-size:.68rem;color:var(--soft)">geser <i class="fa-solid fa-arrows-left-right"></i> maks 4</span></h2>
+    <div class="strip" id="strip"></div>
+    <div class="add"><input id="cu" placeholder="Emoji custom: ketik / tempel" autocomplete="off"><button id="addb"><i class="fa-solid fa-plus"></i></button><button class="rm" id="rmb" title="Hapus emoji custom"><i class="fa-solid fa-trash"></i></button></div>
+    <div class="prev" id="prev"></div>
+  </div>
+
+  <button class="go" id="go"><i class="fa-solid fa-paper-plane"></i>CONFIRM REACT</button>
+</div>
+
+<div id="themes" class="page">
+  <div class="card">
+    <div class="top"><h1><i class="fa-solid fa-palette"></i> TEMA</h1><button class="ib" onclick="show('home')"><i class="fa-solid fa-arrow-left"></i></button></div>
+    <div class="sub">Pilih tema, langsung terpasang</div>
+  </div>
+  <div id="tlist"></div>
+</div>
+</div>
+
+<div class="ov" id="ov"><div class="toast" id="toast"></div></div>
+
+<script>
+const KEY="RS-m@vA2sPo", API="https://api.nexadev.my.id/api/rch";
+// Opsional: isi URL proxy/worker milik sendiri (diakhiri "?url="), akan dicoba paling dulu
+const PROXY_URL="";
+const PROXIES=[...(PROXY_URL?[u=>PROXY_URL+encodeURIComponent(u)]:[]),u=>u];
+
+const BASE=["👍","❤️","😂","😮","😢","🙏","🔥","🎉","😍","👏","💯","🚀","🤔","🥳","😎","😘","😉","🙌","💪","✨","🤣","😭","🥰","👀"];
+const THEMES=[
+ ["default","DEFAULT THEMA","Box kotak biru",["#1e6bff","#cfe0ff","#0b2a5b"]],
+ ["comic","COMIC 3D","Neo Brutalism ungu biru + halftone",["#7c3aed","#3b82f6","#14072e"]],
+ ["comic2","COMIC 3D V2","Neo Brutalism + glow hitam merah pink",["#07070b","#ff1744","#ff2d6f"]],
+ ["glass","LIQUID GLASS","Kaca cair realtime putih hijau muda biru",["#fff","#7ee8b0","#9fd6ff"]],
+ ["mine","MINICRAFT RZ","Pixel blok, siang-malam sesuai jam asli",["#6bbf3f","#c8a26a","#6fb7e8"]],
+ ["roblox","ROBLOX RT","Gaya game Roblox: UI gelap, baseplate, noob jalan, siang-malam realtime",["#00b06f","#232527","#00a2ff"]],
+ ["basic","BASIC THEMA","Polos tanpa efek: abu, putih, hitam, oren",["#ff7a00","#ccc","#111"]]
+];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let sel=[],custom=[];
+try{custom=JSON.parse(localStorage.getItem("anz-custom")||"[]")}catch(_){}
+
+/* emoji gaya iPhone (gambar Apple) */
+const code=e=>[...e].map(c=>c.codePointAt(0).toString(16)).join("-");
+const url=c=>`https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.0.1/img/apple/64/${c}.png`;
+const img=e=>`<img alt="${esc(e)}" data-e="${esc(e)}" src="${url(code(e))}" onerror="ie(this)">`;
+function ie(el){const e=el.dataset.e,c=code(e),n=+el.dataset.n||0;el.dataset.n=n+1;
+ if(n===0)el.src=url(c.replace(/-fe0f/g,""));else if(n===1)el.src=url(c.replace(/-fe0f/g,"")+"-fe0f");
+ else{const s=document.createElement("span");s.textContent=e;s.className="t";el.replaceWith(s)}}
+
+function strip(){$("strip").innerHTML=[...custom,...BASE.filter(e=>!custom.includes(e))].map(e=>`<div class="em" data-e="${esc(e)}">${img(e)}</div>`).join("");
+ document.querySelectorAll(".em").forEach(el=>el.classList.toggle("on",sel.includes(el.dataset.e)));}
+function draw(){$("prev").innerHTML=sel.length?sel.map(img).join("")+`<span class="n">${sel.length}/4</span>`:`<span class="e"><i class="fa-regular fa-hand-pointer"></i> Preview emoji muncul di sini</span><span class="n">0</span>`;}
+$("strip").onclick=ev=>{const el=ev.target.closest(".em");if(!el)return;const e=el.dataset.e,i=sel.indexOf(e);
+ if(i>-1)sel.splice(i,1);else if(sel.length<4)sel.push(e);else return toast("no","Maksimal 4 emoji saja",true);
+ el.classList.toggle("on",sel.includes(e));draw();};
+function saveC(){try{localStorage.setItem("anz-custom",JSON.stringify(custom))}catch(_){}}
+$("addb").onclick=()=>{const v=$("cu").value.trim();if(!v)return;
+ const seg=window.Intl&&Intl.Segmenter?[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(v)].map(s=>s.segment):Array.from(v);
+ const em=seg.filter(g=>/\p{Extended_Pictographic}|\p{Regional_Indicator}/u.test(g));
+ if(!em.length)return toast("no","Itu bukan emoji. Tempel emoji dari keyboard.",true);
+ em.forEach(g=>{if(!BASE.includes(g)&&!custom.includes(g))custom.unshift(g);if(!sel.includes(g)&&sel.length<4)sel.push(g)});
+ custom=custom.slice(0,40);saveC();$("cu").value="";strip();draw();$("strip").scrollLeft=0;};
+$("rmb").onclick=()=>{sel=sel.filter(e=>!custom.includes(e));custom=[];saveC();strip();draw();};
+strip();draw();
+
+/* jam */
+const pad=n=>String(n).padStart(2,"0");
+function tick(){const d=new Date();$("tm").textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+ $("dt").textContent=d.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"short",year:"numeric"});
+ if(["mine","roblox"].includes(document.body.dataset.theme))sky(d);}
+setInterval(tick,1000);
+
+/* Minicraft: langit & matahari/bulan sesuai jam asli */
+function sky(d){const h=d.getHours()+d.getMinutes()/60,b=document.body.style,rb=document.body.dataset.theme==="roblox";
+ let a,c,sun=true;
+ if(h>=5&&h<7){a="#f2b48a";c="#9cc3e8"}else if(h>=7&&h<17){a=rb?"#5aa9f5":"#6fb7e8";c=rb?"#b9defa":"#a9d8f5"}
+ else if(h>=17&&h<19){a="#e2916c";c="#8393c9"}else{a=rb?"#1c2542":"#2f3d6b";c=rb?"#34436f":"#4d5f98";sun=false}
+ b.setProperty("--sky1",a);b.setProperty("--sky2",c);
+ const p=sun?Math.min(1,Math.max(0,(h-5)/14)):((h+(h<5?24:0))-19)/10;
+ const s=$("sun"),x=Math.max(0,Math.min(1,p)),y=70-Math.sin(Math.PI*x)*55;
+ s.style.left=`calc(${x*88+4}% - 23px)`;s.style.top=y+"%";
+ s.style.background=sun?"#ffe45c":"#e9e9f2";s.style.boxShadow=sun?"0 0 0 6px #ffe45c55":"0 0 0 6px #e9e9f244";}
+
+/* Liquid glass: cahaya bergerak realtime (ikut sentuhan/mouse) */
+let pt=0,t0=0;
+addEventListener("pointermove",e=>{pt=performance.now();const s=document.body.style;
+ s.setProperty("--mx",e.clientX/innerWidth*100+"%");s.setProperty("--my",e.clientY/innerHeight*100+"%")});
+(function loop(t){if(document.body.dataset.theme==="glass"&&t-pt>2500){const s=document.body.style;
+ s.setProperty("--mx",50+45*Math.sin(t/1700)+"%");s.setProperty("--my",50+45*Math.cos(t/2300)+"%")}requestAnimationFrame(loop)})(0);
+
+/* kotak dekor tema default */
+for(let i=0;i<9;i++){const d=document.createElement("div");d.className="bx";const s=24+Math.random()*50;
+ d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*95}%;top:${Math.random()*95}%;animation-delay:-${Math.random()*10}s;animation-duration:${8+Math.random()*8}s`;$("fx").appendChild(d)}
+
+/* toast */
+function toast(type,msg,auto,sm){const t={ld:["fa-solid fa-spinner fa-spin","ld"],ok:["fa-solid fa-circle-check","ok"],no:["fa-solid fa-circle-xmark","no"]}[type];
+ $("toast").innerHTML=`<i class="${t[0]} ${t[1]}"></i><p>${msg}</p>${sm?`<small>${esc(sm)}</small>`:""}`+(type==="ld"?"":`<button onclick="hideT()">OK</button>`);
+ $("ov").classList.add("show");if(auto)setTimeout(hideT,1600);}
+function hideT(){$("ov").classList.remove("show")}
+
+/* API: langsung dulu, kalau diblok CORS otomatis lewat proxy */
+async function hit(u){let err="";
+ for(const p of PROXIES){const c=new AbortController(),to=setTimeout(()=>c.abort(),15000);
+  try{const r=await fetch(p(u),{signal:c.signal});const txt=await r.text();clearTimeout(to);let j=null;try{j=JSON.parse(txt)}catch(_){}
+   const vp=p(u)!==u;
+   if((!j&&/<html|<!doctype/i.test(txt))||(vp&&(/api key is required|corsproxy|rate limit|too many requests|access denied|forbidden/i.test(txt)||[403,407,429,502,503,504].includes(r.status)))){err+=(err?" | ":"")+"proxy ditolak: "+new URL(p(u)).host;continue}
+   return {r,txt,j}}catch(e){clearTimeout(to);err+=(err?" | ":"")+(e.name==="AbortError"?"timeout":e.message)}}
+ try{const c=new AbortController(),to=setTimeout(()=>c.abort(),15000);await fetch(u,{mode:"no-cors",signal:c.signal});clearTimeout(to);return {opaque:true,err}}
+ catch(e){err+=(err?" | ":"")+"no-cors: "+e.message}
+ return {err}}
+function judge(x){const {r,j,txt}=x;let m=j?(j.message||j.msg||j.error||(typeof j.result==="string"&&j.result)||""):txt.slice(0,160);
+ if(m&&typeof m==="object")m=JSON.stringify(m);
+ const bad=!r.ok||(j&&(j.success===false||j.status===false||!!j.error||/^(error|fail|false)/i.test(String(j.status))||(typeof j.status==="number"&&j.status>=400)))||(!j&&/error|fail|invalid|gagal/i.test(txt));
+ return {ok:!bad,msg:String(m||""),raw:txt.slice(0,200)}}
+
+let busy=false;
+$("go").onclick=async()=>{
+ if(busy)return;
+ const link=$("link").value.trim();
+ if(!/^https:\/\/(www\.)?whatsapp\.com\/channel\/[\w-]+\/\d+/i.test(link))return toast("no","Link tidak valid. Pakai link pesan saluran (…/channel/ID/ANGKA).");
+ if(!sel.length)return toast("no","Pilih minimal 1 emoji dulu.");
+ busy=true;toast("ld","Memproses reaction…");
+ const tg=r=>`${API}?key=${encodeURIComponent(KEY)}&url=${encodeURIComponent(link)}&reaction=${encodeURIComponent(r)}`;
+ let x=await hit(tg(sel.join(",")));
+ if(x.opaque){busy=false;return toast("ok","Request reaction "+sel.join(" ")+" sudah TERKIRIM ke server API.",false,"Balasan API tidak bisa dibaca browser (diblok CORS). Cek langsung di saluran WhatsApp. Untuk status pasti, pakai proxy Worker (PROXY_URL).")}
+ if(x.err){busy=false;return toast("no","Tidak bisa terhubung ke API.",false,x.err)}
+ let j=judge(x);
+ if(j.ok)toast("ok","Reaction "+sel.join(" ")+" berhasil dikirim!",false,j.msg);
+ else if(sel.length>1){ // coba satu-satu
+  let okc=[],last=j;
+  for(const e of sel){const y=await hit(tg(e));if(y.err)continue;const k=judge(y);last=k;if(k.ok)okc.push(e)}
+  okc.length?toast("ok","Berhasil: "+okc.join(" ")+(okc.length<sel.length?" (sebagian gagal)":""),false,last.msg):toast("no","Gagal dari API.",false,j.msg||j.raw);
+ }else toast("no","Gagal dari API.",false,j.msg||j.raw);
+ busy=false;
+};
+
+/* tema */
+function show(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id===p));scrollTo(0,0)}
+function setTheme(t){document.body.dataset.theme=t;try{localStorage.setItem("anz-theme",t)}catch(_){}
+ document.querySelectorAll(".tg").forEach(b=>b.classList.toggle("cur",b.dataset.t===t));tick()}
+$("tlist").innerHTML=THEMES.map(t=>`<button class="tg" data-t="${t[0]}"><span class="sw">${t[3].map(c=>`<i style="background:${c}"></i>`).join("")}</span><span><b>${t[1]}</b><small>${t[2]}</small></span><i class="fa-solid fa-circle-check ck"></i></button>`).join("");
+$("tlist").onclick=e=>{const b=e.target.closest(".tg");if(b)setTheme(b.dataset.t)};
+let sv="default";try{sv=localStorage.getItem("anz-theme")||"default"}catch(_){}
+tick();setTheme(THEMES.some(t=>t[0]===sv)?sv:"default");
+</script>
+</body>
+</html>
